@@ -5,17 +5,24 @@ import { AppComponent } from './app.component';
 import { CounterComponent } from './counter/counter/counter.component';
 import { CounterOutputComponent } from './counter/counter-output/counter-output.component';
 import { CounterButtonsComponent } from './counter/counter-buttons/counter-buttons.component';
-import { StoreModule } from '@ngrx/store';
-import { counterReducer } from './counter/state/counter.reducer';
+import { ActionReducer, MetaReducer, State, StoreModule } from '@ngrx/store';
 import { CustomCounterInputComponent } from './counter/custom-counter-input/custom-counter-input.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PostListComponent } from './posts/post-list/post-list.component';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { storeLogger } from 'ngrx-store-logger';
+import { AppReducer, AppState } from './store/app.state';
 import { environment } from 'src/environments/environment';
+import { AddPostComponent } from './posts/add-post/add-post.component';
 
+export function logger(reducer: ActionReducer<AppState>): any {
+  // default, no options
+  return storeLogger()(reducer);
+}
+
+export const metaReducers = environment.production ? [] : [logger];
 
 @NgModule({
   declarations: [
@@ -26,19 +33,16 @@ import { environment } from 'src/environments/environment';
     CustomCounterInputComponent,
     HomeComponent,
     HeaderComponent,
-    PostListComponent
+    PostListComponent,
+    AddPostComponent
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     FormsModule,
     AppRoutingModule,
-    StoreModule.forRoot({ counter: counterReducer }),
-    StoreDevtoolsModule.instrument({
-      name: 'NgRx Demo App',
-      logOnly: true,
-      monitor: (state, action) => {
-        console.log(state, action);
-      }
+    StoreModule.forRoot(AppReducer, {
+      metaReducers
     })
   ],
   providers: [],
