@@ -16,6 +16,7 @@ import { storeLogger } from 'ngrx-store-logger';
 import { AppReducer, AppState } from './store/app.state';
 import { environment } from 'src/environments/environment';
 import { AddPostComponent } from './posts/add-post/add-post.component';
+import { EditPostComponent } from './posts/edit-post/edit-post.component';
 
 export function logger(reducer: ActionReducer<AppState>): any {
   // default, no options
@@ -27,14 +28,8 @@ export const metaReducers = environment.production ? [] : [logger];
 @NgModule({
   declarations: [
     AppComponent,
-    CounterComponent,
-    CounterOutputComponent,
-    CounterButtonsComponent,
-    CustomCounterInputComponent,
     HomeComponent,
     HeaderComponent,
-    PostListComponent,
-    AddPostComponent
   ],
   imports: [
     BrowserModule,
