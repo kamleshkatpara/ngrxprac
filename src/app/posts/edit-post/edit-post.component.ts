@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { getPostById } from 'src/app/counter/state/posts.selectors';
+import { getPostById } from 'src/app/posts/state/posts.selectors';
 import { Post } from 'src/app/models/posts.model';
 import { AppState } from 'src/app/store/app.state';
 import { updatePost } from '../state/posts.actions';
