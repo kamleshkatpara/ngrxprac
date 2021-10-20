@@ -3,30 +3,33 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import { setLoadingSpinner } from 'src/app/store/shared/shared.actions';
-import { loginStart } from '../state/auth.actions';
+import { signUpStart } from '../state/auth.actions';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class SignupComponent implements OnInit {
 
-  loginForm!: FormGroup;
+  signUpForm!: FormGroup;
+
   constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
-    this.loginForm = new FormGroup({
+    this.signUpForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
     })
   }
 
-  onLoginSubmit() {
-    const email = this.loginForm.value.email;
-    const password = this.loginForm.value.password;
+  onSignUpSubmit() {
+    if (!this.signUpForm.valid) { return; }
+    const email = this.signUpForm.value.email;
+    const password = this.signUpForm.value.password;
+
     this.store.dispatch(setLoadingSpinner({ status: true }));
-    this.store.dispatch(loginStart({ email, password }));
+    this.store.dispatch(signUpStart({ email, password }));
   }
 
 }
