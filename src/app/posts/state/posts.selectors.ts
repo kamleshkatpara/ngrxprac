@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { PostsState } from "src/app/posts/state/posts.state";
+import { PostsState } from "../state/posts.state";
 
 export const POST_STATE_NAME = 'posts';
 
@@ -9,6 +9,12 @@ export const getPosts = createSelector(getPostsState, (state) => {
     return state.posts;
 })
 
-export const getPostById = (id: any) => createSelector(getPostsState, (state) => {
-    return state.posts.find((post) => post.id === id);
-})
+export const getPostById = (id: number | null) => {
+    return createSelector(getPostsState, (state) => {
+
+        console.log(typeof id);
+
+        state.posts.find((post) => console.log(typeof post.id))
+        return state.posts.find((post) => post.id === id);
+    })
+} 

@@ -17,21 +17,25 @@ export class EditPostComponent implements OnInit, OnDestroy {
 
   post!: Post | any;
   postForm!: FormGroup;
-  postSubscription!: Subscription;
+  postSubscription?: Subscription;
 
-  constructor(private route: ActivatedRoute, private store: Store<AppState>, private router: Router) { }
+  constructor(
+    private route: ActivatedRoute,
+    private store: Store<AppState>,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      const id = params.get('id');
-      this.store.select(getPostById(id)).subscribe((data) => {
-        this.post = data;
-        this.createForm()
-      })
-
-    })
+      const id = Number(params?.get('id'));
+      this.postSubscription = this.store
+        .select(getPostById(id))
+        .subscribe((data) => {
+          this.post = data;
+          this.createForm();
+        });
+    });
   }
-
 
   createForm() {
     this.postForm = new FormGroup({
@@ -43,15 +47,8 @@ export class EditPostComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.minLength(10),
       ]),
-    })
+    });
   }
-
-  ngOnDestroy() {
-    if (this.postSubscription) {
-      this.postSubscription.unsubscribe()
-    }
-  }
-
 
   onSubmit() {
     if (!this.postForm.valid) {
@@ -64,11 +61,17 @@ export class EditPostComponent implements OnInit, OnDestroy {
     const post: Post = {
       id: this.post.id,
       title,
-      description
-    }
+      description,
+    };
 
+    //dispatch the action
     this.store.dispatch(updatePost({ post }));
-    this.router.navigate(['posts'])
+    this.router.navigate(['posts']);
   }
 
+  ngOnDestroy() {
+    if (this.postSubscription) {
+      this.postSubscription.unsubscribe();
+    }
+  }
 }
