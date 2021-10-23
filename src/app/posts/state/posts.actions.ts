@@ -13,4 +13,4 @@ export const deletePost = createAction(DELETE_POST_ACTION, props<{ id: string }>
 
 
 export const loadPosts = createAction(LOAD_POSTS);
-export const loadPostsSuccess = createAction(LOAD_POSTS_SUCCESS, props<{ post: Post[] }>());
+export const loadPostsSuccess = createAction(LOAD_POSTS_SUCCESS, props<{ posts: Post[] }>());
