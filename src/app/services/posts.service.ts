@@ -24,4 +24,8 @@ export class PostsService {
                 })
             )
     }
+
+    addPost(post: Post): Observable<Post> {
+        return this.http.post<Post>(`${environment.api_url}/posts`, post)
+    }
 }
