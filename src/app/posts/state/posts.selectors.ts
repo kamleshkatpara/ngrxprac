@@ -11,10 +11,6 @@ export const getPosts = createSelector(getPostsState, (state) => {
 
 export const getPostById = (id: number | null) => {
     return createSelector(getPostsState, (state) => {
-
-        console.log(typeof id);
-
-        state.posts.find((post) => console.log(typeof post.id))
         return state.posts.find((post) => post.id === id);
     })
 } 

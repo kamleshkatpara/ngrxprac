@@ -29,11 +29,11 @@ export class PostsService {
         return this.http.post<Post>(`${environment.api_url}/posts`, post)
     }
 
-    updatePost(post: any) {
+    updatePost(post: Post) {
         const postData = {
-            [post.id]: { title: post.title, description: post.description },
+            title: post.title, description: post.description
         };
-        return this.http.patch(`${environment.api_url}/posts`, postData)
+        return this.http.put(`${environment.api_url}/posts/${post.id}`, postData)
     }
 
     deletePost(id: number) {
